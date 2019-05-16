@@ -8,32 +8,66 @@
 <form id="myForm">
 
     <label>
-        <input type="text" name="name">
+        <input type="text" id="name" name="name" placeholder="Name"><br><br>
     </label>
     <label>
-        <input type="text" name="nummer">
+        <input type="number" id="nummer" name="nummer" placeholder="Nummer"><br><br>
     </label>
     <label>
-        <input type="password" name="passwort">
+        <input type="password" id="passwort" name="passwort" placeholder="Passwort"><br><br>
     </label>
     <label>
-        <input type="radio" name="sichtbarkeit" value="öffentlich">
+        <textarea name="kommentar" id="kommentar"></textarea><br><br>
     </label>
     <label>
-        <input type="radio" name="sichtbarkeit" value="schulintern">
+        <input type="radio" name="sichtbarkeit" value="öffentlich">öffentlich<br>
     </label>
     <label>
-        <input type="radio" name="sichtbarkeit" value="Klasse">
+        <input type="radio" name="sichtbarkeit" value="schulintern">schulintern<br>
     </label>
     <label>
-        <input type="radio" name="sichtbarkeit" value="privat" checked>
+        <input type="radio" name="sichtbarkeit" value="Klasse">Klasse<br>
     </label>
     <label>
-        <input type="checkbox" name="">
+        <input type="radio" name="sichtbarkeit" value="privat" checked>privat<br><br>
+    </label>
+    <label>
+        sichtbar für:<br>
+        <input type="checkbox" name="AP11" value="AP11">AP11<br>
+    </label>
+    <label>
+        <input type="checkbox" name="AP12" value="AP12">AP12<br>
+    </label>
+    <label>
+        <input type="checkbox" name="AP13" value="AP13">AP13<br>
+    </label>
+    <label>
+        <input type="checkbox" name="AP14" value="AP14">AP14<br>
+    </label>
+    <label>
+        <input type="checkbox" name="AP15" value="AP15">AP15<br><br>
+    </label>
+    <label>
+        erfasst von:<br>
+        <select>
+            <option value="Peter Meier">Peter Meier</option>
+            <option value="Hans Müller">Hans Müller</option>
+            <option value="Umut Savas">Umut Savas</option>
+        </select>
     </label>
 </form>
-<label>
-    <textarea form="myForm" name="kommentar"></textarea>
-</label>
+<br>
+<button onclick="showInfo()">Info anzeigen</button>
 </body>
+<script>
+    function showInfo() {
+        let nameLength = document.getElementById("name").value.length;
+        let commentLength = document.getElementById("kommentar").value.length;
+        let currentDate = new Date();
+        let time = currentDate.getHours() + currentDate.getMinutes();
+        let date = currentDate.getFullYear();
+        let browser = window.navigator.userAgent;
+        let version = navigator.appVersion;
+    }
+</script>
 </html>
