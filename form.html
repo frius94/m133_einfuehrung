@@ -33,41 +33,117 @@
     </label>
     <label>
         sichtbar für:<br>
-        <input type="checkbox" name="AP11" value="AP11">AP11<br>
+        <input type="checkbox" name="sichtbarFuer" value="AP11">AP11<br>
     </label>
     <label>
-        <input type="checkbox" name="AP12" value="AP12">AP12<br>
+        <input type="checkbox" name="sichtbarFuer" value="AP12">AP12<br>
     </label>
     <label>
-        <input type="checkbox" name="AP13" value="AP13">AP13<br>
+        <input type="checkbox" name="sichtbarFuer" value="AP13">AP13<br>
     </label>
     <label>
-        <input type="checkbox" name="AP14" value="AP14">AP14<br>
+        <input type="checkbox" name="sichtbarFuer" value="AP14">AP14<br>
     </label>
     <label>
-        <input type="checkbox" name="AP15" value="AP15">AP15<br><br>
+        <input type="checkbox" name="sichtbarFuer" value="AP15">AP15<br><br>
     </label>
     <label>
         erfasst von:<br>
-        <select>
-            <option value="Peter Meier">Peter Meier</option>
-            <option value="Hans Müller">Hans Müller</option>
-            <option value="Umut Savas">Umut Savas</option>
+        <select id="erfasstVon">
+            <option value="AP11">AP11</option>
+            <option value="AP12">AP12</option>
+            <option value="AP13">AP13</option>
+            <option value="AP14">AP14</option>
+            <option value="AP15">AP15</option>
         </select>
     </label>
 </form>
 <br>
 <button onclick="showInfo()">Info anzeigen</button>
 </body>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
 <script>
+
+    /**
+     * Check whether the selected value occurs in the selected checkbox array.
+     */
+    function checkboxContainsSelect() {
+        let checkboxes = [];
+        let checkboxObjects = document.getElementsByName("sichtbarFuer");
+        checkboxObjects.forEach(function (element) {
+            if (element.checked) {
+                checkboxes.push(element.value);
+            }
+        });
+        let selectValue = document.getElementById("erfasstVon");
+        selectValue = selectValue.options[selectValue.selectedIndex].value;
+        if (checkboxes.indexOf(selectValue) !== -1) {
+            return "ja"
+        }
+        return "nein";
+    }
+
+    /**
+     * Calculate the sum of the digits in the number argument and return the result.
+     * @param number
+     * @returns {number}
+     */
+    function calculateSumOfDigits(number) {
+        let sum = 0;
+        while (number) {
+            sum += number % 10;
+            number = Math.floor(number / 10);
+        }
+        return sum;
+    }
+
+    /**
+     * Check whether the String contains digits or not.
+     * @param myString
+     * @returns {boolean}
+     */
+    function hasNumber(myString) {
+        return /\d/.test(myString);
+    }
+
+    /**
+     * Get all required information and print it with alert.
+     */
     function showInfo() {
+        let countDigits;
         let nameLength = document.getElementById("name").value.length;
         let commentLength = document.getElementById("kommentar").value.length;
         let currentDate = new Date();
-        let time = currentDate.getHours() + currentDate.getMinutes();
-        let date = currentDate.getFullYear();
+        let time = currentDate.getHours() + ":" + currentDate.getMinutes();
+        let date = currentDate.getDate() + "." + currentDate.getMonth() + 1 + "." + currentDate.getFullYear();
         let browser = window.navigator.userAgent;
         let version = navigator.appVersion;
+        let square = document.getElementById("nummer").value * document.getElementById("nummer").value;
+        let sumOfDigits = calculateSumOfDigits(document.getElementById("nummer").value);
+        if (hasNumber(document.getElementById("kommentar").value)) {
+            countDigits = document.getElementById("kommentar").value.replace(/[^0-9]/g, "").length;
+        } else {
+            countDigits = "enthält keine Ziffern";
+        }
+        let occurrenceE = (document.getElementById("name").value.match(/e/g) || []).length;
+        let countCheckedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        let isSelectInCheckbox = checkboxContainsSelect();
+
+        alert("Anzahl Zeichen des Formularfeldes mit der Beschriftung Name: " + nameLength + "\n\n" +
+            "Anzahl Zeichen des Formularfeldes mit der Beschriftung Kommentar: " + commentLength + "\n\n" +
+            "die aktuelle Uhrzeit: " + time + "\n" +
+            "das aktuelle Datum: " + date + "\n\n" +
+            "den Namen des Browsers: " + browser + "\n\n" +
+            "die Version des Browsers: " + version + "\n\n" +
+            "die eingegebene Nummer im Quadrat: " + square + "\n" +
+            "die Quersumme des Feldes Nummer: " + sumOfDigits + "\n\n" +
+            "enthält der „Kommentar“ Ziffern und wie viele?: " + countDigits + "\n\n" +
+            "wie oft kommt der Buchstabe „e“ im Namen vor?: " + occurrenceE + "\n\n" +
+            "Wieviel Klassen sind bei „sichtbar für:“ markiert (Anzahl)?: " + countCheckedCheckboxes + "\n\n" +
+            "Ist die Klasse bei „erfasst von:“ auch bei sichtbar für:“ markiert?: " + isSelectInCheckbox);
     }
 </script>
 </html>
